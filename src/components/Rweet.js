@@ -23,14 +23,17 @@ const Rweet = ({ rweetObj, isOwner }) => {
   }
   return (
     <div>
-      {
-        editing ? ( 
+      { editing ? ( 
           <>
-          <form onSubmit={onSubmit}>
-            <input type="text" placeholder="Edit your Rweet" value={ newRweet } onChange={onChange} required />
-            <input type="submit" value="수정" />
-          </form>
-          <button onClick={toggleEditing}>취소</button> 
+          { isOwner && (
+            <>
+              <form onSubmit={onSubmit}>
+                <input type="text" placeholder="Edit your Rweet" value={ newRweet } onChange={onChange} required />
+                <input type="submit" value="수정" />
+              </form>
+              <button onClick={toggleEditing}>취소</button> 
+            </>
+            )}
           </>
         ) : (
         <>
@@ -42,8 +45,7 @@ const Rweet = ({ rweetObj, isOwner }) => {
             </>
           )}
         </>
-        )
-      }
+        )}
     </div>
   )
 }
