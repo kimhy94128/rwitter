@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppRouter from 'components/Router';
 import { authService } from 'fBase';
 
 function App() {
-  const [ isLoggedIn, setIsLoggedIn ] = useState(authService.currentUser);
+  const [ init, setInit ] = useState(false);
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
+  const [ userObj, setUserObj ] = useState(null);
+  useEffect(() => {
+    authService.onAuthStateChanged((user) => {
+      if(user){
+        setIsLoggedIn(true);
+        setUserObj(user);
+      } else {
+        setIsLoggedIn(false);
+      }
+      setInit(true);
+    })
+  }, [])
   return (
     <>
-      <AppRouter isLoggedIn={isLoggedIn} />
+      {init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} /> : "Initializing..."}
       <footer>&copy; 2020 Rwitter</footer>
     </>
   );
